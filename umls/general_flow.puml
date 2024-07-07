@@ -50,12 +50,18 @@ alt insufficient funds
   obp -> player--: order is submitted
   note over obp: <b>Question 2</b>: Should "Open Banking Platform" reject \nthe deposit if player's score is too low?
   obp -> bank++: deposit money
-  activate obp
   bank -> obp--: ack
-  obp -> ogp++: deposit result callback
-  deactivate obp
-  ogp -> player--: deposit ack
+  obp -> ogp: deposit result callback
+  activate ogp
+
+  par Callback to player
+    ogp ->o player: deposit ack
+  else call back to the wallet
+    ogp ->o  wallet: balance update
+    deactivate ogp
   end
+
+end
 player -> rcp++: make a bet
 rcp -> rcp++--: services a bet
 rcp -> player--: result
