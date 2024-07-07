@@ -1,0 +1,64 @@
+@startuml
+
+autonumber
+
+actor player as "Player"
+participant ogp as "Online Gambling Platform"
+participant rcp as "Remote Content Provider\n(Game server)"
+participant wallet as "Wallet"
+participant obp as "Open Banking Platform"
+participant bank as "Bank"
+
+== Authentication ==
+
+player o-> ogp++: login
+ogp -> ogp++--: try to authenticate\nthe player
+alt authenticated
+  note over ogp: <b>Question 1</b>: Should a gambling platform \nrequests from the Open Banking Platform the payer's gambling risk score?
+  ogp ->o player: access token
+   else  access denied
+  ogp ->o player--: access denied
+end
+
+== Get content (player is authenticated)==
+
+player o-> ogp++: request
+ogp -> ogp++--: prepare content
+ogp -> player--++: the prepared content
+player -> player++--: selects the game or sport
+player -> ogp--++: requests the selected content (game/sport)
+alt launch URL can be composed by "Online Gambling Platform"
+  ogp -> ogp++--: compose a launch URL
+else
+  ogp -> rcp++: get launch URL
+  rcp -> ogp--: the launch URL
+end
+ogp -> wallet++: get player balance
+wallet -> wallet++--: prepare the player balance
+wallet -> ogp--: player balance
+ogp -> ogp++-- : prepare a wrapper (client)
+ogp -> player--++: returns the wrapper with launch URL
+player -> rcp--++: get a game/sport
+rcp -> rcp++--: prepare the game/sport
+rcp ->o player-- : game/sport content
+
+== Game play ==
+player o-> player++--: want to do a bet
+alt insufficient funds
+  player -> ogp++: want to deposit
+  ogp -> obp--++: redirect to deposit money
+  obp -> player--: order is submitted
+  note over obp: <b>Question 2</b>: Should "Open Banking Platform" reject \nthe deposit if player's score is too low?
+  obp -> bank++: deposit money
+  activate obp
+  bank -> obp--: ack
+  obp -> ogp++: deposit result callback
+  deactivate obp
+  ogp -> player--: deposit ack
+  end
+player -> rcp++: make a bet
+rcp -> rcp++--: services a bet
+rcp -> player--: result
+note over wallet: <b>Question 3</b>: Who is responsible for wallet notification?
+
+@enduml
