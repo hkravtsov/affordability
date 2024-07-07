@@ -8,6 +8,7 @@ participant rcp as "Remote Content Provider\n(Game server)"
 participant wallet as "Wallet"
 participant obp as "Open Banking Platform"
 participant bank as "Bank"
+participant jackpot as "Jackpot network"
 
 == Authentication ==
 
