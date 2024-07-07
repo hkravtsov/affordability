@@ -64,7 +64,8 @@ alt insufficient funds
 end
 player -> rcp++: make a bet
 rcp -> rcp++--: services a bet
+rcp -> wallet++: money transaction
+wallet -> rcp--: ack
 rcp -> player--: result
-note over wallet: <b>Question 3</b>: Who is responsible for wallet notification?
 
 @enduml
