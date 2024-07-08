@@ -26,3 +26,81 @@ The following diagram shows a flow of interactions between player, bank, open ba
 platform:
 
 ![Basic flow](/umls/images/diagram-14825854324745902788.png)
+
+The main problem is to build a player's behavior model based on the limited information - OBP knows about the following
+player's actions:
+
+- deposit money to OGP;
+- receiving money from OGP.
+
+Under the player's behavior model we understand a class of the players depends on the weak structured data.
+Understanding different nature of the data and, potentially, different quality leads us to using the ensemble methods.
+
+```
+Hypothesis: K-nearest neigborns + random forest + neural network for weakly structured data
+```
+
+```
+Hypothesis: Scheduled data scrapper + ETL
+```
+
+```
+Hypothesis: Data Lake for weakly structured data
+```
+
+## 4. Preliminary requirements
+
+### 4.1. Multiple bank account
+
+Player can have multiple bank account in the different banks.
+
+```
+Question: How player activities from the different banks can be merged?
+```
+
+```
+Hypothesis: Player can be identified by socialID
+```
+
+### 4.2. Player activities
+
+#### 4.2.1. Player's bank operations
+
+| Operation                                      | Frequency             |
+|------------------------------------------------|-----------------------|
+| Deposit (PayIn) transaction (Player -> OGP)    | up to 5 times per day | 
+| Withdraw  (PayOut) transaction (OGP -> Player) | up to 2 per month     |
+
+#### 4.2.2. Average bank transaction payload size
+
+Average size of a credit card data transaction is 500
+bytes  ([Source](https://www.quora.com/What-is-the-average-data-size-of-a-credit-card-data-transaction))
+
+#### 4.2.3. Average size of player activity records
+
+Player activity record is a record in the bank's database with all needed meta-data.
+Let's assume that record has size less than 5KB.
+
+### 4.3. Data scrapping
+
+| Operation                | Frequency    |
+|--------------------------|--------------|
+| Data scrapping per token | once per day | 
+
+#### 4.2.4. Average size of token for data scraping
+
+Let's assume 200 bytes.
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+

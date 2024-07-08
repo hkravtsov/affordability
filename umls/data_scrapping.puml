@@ -1,0 +1,26 @@
+@startuml
+
+autonumber
+
+database dl as "Data Lake"
+
+box "Open Bank Platform"  #LightBlue
+database scheduled as "Scheduled \nscrapping tasks"
+participant scheduler as "Scrapping Scheduler"
+queue stq as "Scrapping Task Queue"
+participant service as "Scrapping Service"
+participant baip as "Bank API"
+
+end box
+
+participant bank as "Bank"
+
+note over scheduled: <b>Stored data</b>:\ntoken,\nnext scraping moment,\nlast scrapping moment,\nstatus
+
+loop Get scheduled tasks \n(repeat until all scheduled are in processing)
+scheduler -> scheduled: get a task for\na time window\n(find and modify)
+
+scheduler -> stq
+end
+
+@enduml

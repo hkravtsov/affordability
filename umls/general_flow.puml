@@ -47,12 +47,17 @@ rcp ->o player-- : game/sport content
 player o-> player++--: want to do a bet
 alt insufficient funds
   player -> ogp++: want to deposit
+  ogp -> player++: ask a permission to track the player's activity
+  player -> ogp--: grant the permission
   ogp -> obp--++: redirect to deposit money
+  activate obp
   obp -> player--: order is submitted
   note over obp: <b>Question 2</b>: Should "Open Banking Platform" reject \nthe deposit if player's score is too low?
   obp -> bank++: deposit money
-  bank -> obp--: ack
+  bank -> obp--: ack (+ token for observability)
+  obp -> obp: save a token for further observability
   obp -> ogp: deposit result callback
+  deactivate obp
   activate ogp
 
   par Callback to player
