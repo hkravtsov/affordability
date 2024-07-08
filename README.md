@@ -96,6 +96,8 @@ Millennials are 24% more likely to play games before they go to sleep at night t
 play right when they wake up in the morning as well. In fact, Millennials seem to play more consistently throughout the
 day, over-indexing for just about every activity.
 
+Thus, most operation will be made in **2-3 hours per day**.
+
 ### 4.3. Data scrapping
 
 | Operation                | Frequency    |
@@ -106,9 +108,131 @@ day, over-indexing for just about every activity.
 
 Let's assume 200 bytes.
 
-#### 4.3.2. Scrapping flow
+## 5. The back-of-envelop calculation
+
+## 6.Architectural design
+
+### 6.1. Architectural concepts and approaches
+
+#### 6.1.1. ETL vs ELT
+
+ETL (Extract, Transform, Load) and ELT (Extract, Load, Transform) stand as the two predominant methodologies for
+designing such king of the system. [Resource](https://www.datacamp.com/blog/etl-vs-elt)
+
+##### 6.1.1.1. ETL
+
+ETL, as the acronym suggests, consists of three primary steps:
+
+- **Extract** - Data is gathered from different source systems.
+- **Transform** - Data is then transformed into a standardized format. The transformation can include cleansing,
+  aggregation, enrichment, and other processes to make the data fit for its purpose.
+- **Load** - The transformed data is loaded into a target data warehouse or another repository.
+
+##### 6.1.1.2. ELT
+
+ELT takes a slightly different approach:
+
+- **Extract** - Just as with ETL, data is collected from different sources.
+- **Load** - Instead of transforming it immediately, raw data is directly loaded into the target system.
+- **Transform** - Transformations take place within the data warehouse.
+
+##### 6.1.1.2. Comparison of ETL and ELT
+
+| Approach  | ETL | ELT |
+|-----------|-----|-----|
+| Pros      |     |     |
+| Cons      |     |     |
+
+### 6.2. Basic flows
+
+#### 6.2.1. Scrapping (replication) flows
 
 ![Scrapping flow](/umls/images/diagram_data_scrapping.png)
+
+## 6.3. Monitoring, metrics and alerting
+
+This part of the document defines the requirementS and the best practices in monitoring, metrics and alerting of User
+Auth Module. This module is responsible for the typical business operation related to user registration,
+authentication.
+
+### 6.3.1. Performance monitoring
+
+This involves tracking metrics like response times, request rates, resource utilization, and error rates to ensure
+optimal performance.
+
+The metrics:
+
+| Metric               | Description                                                                                                                                | Unit   | Percentile         |
+|----------------------|--------------------------------------------------------------------------------------------------------------------------------------------|--------|--------------------|
+| Response time        | This metric measures the time taken for the app to respond to a user request. It helps in evaluating the app's speed and efficiency.       | ms     | 50%, 75%, 95%, 99% |
+| Request throughput   | The number of requests the app can handle per unit of time, indicating its capacity and scalability.                                       | rps    |                    |
+| Error rate           | Monitoring the percentage of unsuccessful requests or errors occurring within the app provides crucial insights into its reliability.      | %      |                    |
+| Apdex score          | A metric that combines response time and error rate to evaluate user satisfaction with the app's performance.                              | rps    |                    |
+| Round Trip Time      | The time taken for a request to travel from the client to the server and back.                                                             | ms     | 50%, 75%, 95%, 99% |
+| Latency              | The time used by server for for a request processing.                                                                                      | ms     | 50%, 75%, 95%, 99% |
+| Resource utilization | Tracking CPU, memory, disk usage, queues lengths, and other resources helps ensure efficient resource allocation and prevents bottlenecks. | %, mpq |                    |
+
+### 6.3.2. Health and liveness checks (probes)
+
+Regularly checking the app's status and components to detect any potential issues or failures.
+The requirements:
+
+| Requirement class                 | Description                                                                                                                   |
+|-----------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| Frequency                         | Regularly schedule health checks to monitor the app's status and components at predefined intervals.                          |
+| Timeouts                          | Set appropriate timeouts for health checks to prevent them from causing delays or bottlenecks in the app.                     |
+| Thresholds                        | Define thresholds for health check results to determine when an app component is considered unhealthy or  unresponsive.       |
+| Customization                     | Allow for customization of health checks to include specific checks for different app components or services.                 |
+| Logging and reporting             | Log the results of health checks and provide detailed reports to track app performance and status over time.                  |
+| Alerting                          | Configure alerts to notify administrators or stakeholders when an app component fails a health check or becomes unresponsive. |
+| Integration with monitoring tools | Integrate health and liveness checks with existing monitoring tools or systems to streamline monitoring processes.            |
+| Automatic recovery                | Implement automatic recovery processes based on health check results to ensure prompt resolution of issues.                   |
+
+### 6.3.3. Alerting
+
+Setting up alerts for specific thresholds or conditions to notify when performance degrades or errors occur.
+
+What to alert on:
+
+- Alerts should be actionable and relevant to users.
+- Some examples of things to alert on are availability, latency, and integrity/durability.
+- Alerts are the “start” of an action or an investigation; they may only represent a small portion of what you monitor.
+
+When to alert on things:
+
+- Alerts can be more or less urgent depending on how long the issue has been going on and how severe the impact is.
+  Consider that impact changes over time.
+- You can use alerts to give people enough time to act before there are consequences for issues such as quota
+  consumption.
+
+Who to alert, and how:
+
+- Only notify people you intend to act in response, and trust them to inform more people if needed.
+- Page the person on-call if the situation requires an immediate response.
+- Consider not paging the person on-call and creating a ticket if the issue is not urgent.
+
+### 6.3.4. Logging
+
+Collecting and analyzing logs to track app behavior, diagnose issues, and troubleshoot problems.
+
+- Know What to Log
+- Know When to Use Each Log Level
+- Use English Language and Friendly Log Messages
+- Have a Consistent Structure Across All Logs
+- Understand Metrics
+- Make Each Log Message Unique
+- Always Provide Context
+- Reporting Alerts and Exception Handling
+- Write Log Parsers and Proactively Monitor Logs
+
+### 6.3.5. Security monitoring
+
+Monitoring for suspicious activities, potential intrusions, and vulnerabilities to protect the app from security
+threats.
+
+Please, follow [NIST SP 800-171](https://csrc.nist.gov/pubs/sp/800/171/r2/upd1/final) recommendations in security monitoring.
+
+
 
 
 
