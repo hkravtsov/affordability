@@ -52,7 +52,7 @@ Hypothesis: Data Lake for weakly structured data
 
 ### 4.1. Multiple bank account
 
-Player can have multiple bank account in the different banks.
+Player can have multiple bank accounts in the different banks.
 
 ```
 Question: How player activities from the different banks can be merged?
@@ -71,6 +71,7 @@ Hypothesis: Player can be identified by socialID
 | Deposit (PayIn) transaction (Player -> OGP)    | up to 5 times per day | 
 | Withdraw  (PayOut) transaction (OGP -> Player) | up to 2 per month     |
 
+
 #### 4.2.2. Average bank transaction payload size
 
 Average size of a credit card data transaction is 500
@@ -80,6 +81,14 @@ bytes  ([Source](https://www.quora.com/What-is-the-average-data-size-of-a-credit
 
 Player activity record is a record in the bank's database with all needed meta-data.
 Let's assume that record has size less than 5KB.
+
+#### 4.2.4. Timing
+
+In accordance with the [research](https://medium.com/tapjoy/tapjoy-research-when-do-people-play-mobile-games-8c622c7429f), nighttime is more popular than the morning for gaming.
+
+Mobile gamers are more than twice as likely to play games at night right before they go to bed than in the morning right when they wake up, 59% to 27%. Women are even more likely than men to play at night, with 66% of them reporting they play right before they go to sleep at night. Meanwhile, only 22% of men report playing games right when they wake up in the morning.
+
+Millennials are 24% more likely to play games before they go to sleep at night than older players and 42% more likely to play right when they wake up in the morning as well. In fact, Millennials seem to play more consistently throughout the day, over-indexing for just about every activity. 
 
 ### 4.3. Data scrapping
 
