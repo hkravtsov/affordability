@@ -25,13 +25,13 @@ This part of the document aims to provide non-casuistic definitions of the terms
 The following diagram shows a flow of interactions between player, bank, open banking platform and online gambling
 platform:
 
-![Basic flow](/umls/images/diagram-14825854324745902788.png)
+![Basic flow](/umls/images/diagram_general_flow.png)
 
 The main problem is to build a player's behavior model based on the limited information - OBP knows about the following
 player's actions:
 
-- deposit money to OGP;
-- receiving money from OGP.
+- deposit money to OGP (PayIn, Deposit);
+- receiving money from OGP (PayOut, Withdraw).
 
 Under the player's behavior model we understand a class of the players depends on the weak structured data.
 Understanding different nature of the data and, potentially, different quality leads us to using the ensemble methods.
@@ -71,7 +71,6 @@ Hypothesis: Player can be identified by socialID
 | Deposit (PayIn) transaction (Player -> OGP)    | up to 5 times per day | 
 | Withdraw  (PayOut) transaction (OGP -> Player) | up to 2 per month     |
 
-
 #### 4.2.2. Average bank transaction payload size
 
 Average size of a credit card data transaction is 500
@@ -84,11 +83,18 @@ Let's assume that record has size less than 5KB.
 
 #### 4.2.4. Timing
 
-In accordance with the [research](https://medium.com/tapjoy/tapjoy-research-when-do-people-play-mobile-games-8c622c7429f), nighttime is more popular than the morning for gaming.
+In accordance with
+the [research](https://medium.com/tapjoy/tapjoy-research-when-do-people-play-mobile-games-8c622c7429f), nighttime is
+more popular than the morning for gaming.
 
-Mobile gamers are more than twice as likely to play games at night right before they go to bed than in the morning right when they wake up, 59% to 27%. Women are even more likely than men to play at night, with 66% of them reporting they play right before they go to sleep at night. Meanwhile, only 22% of men report playing games right when they wake up in the morning.
+Mobile gamers are more than twice as likely to play games at night right before they go to bed than in the morning right
+when they wake up, 59% to 27%. Women are even more likely than men to play at night, with 66% of them reporting they
+play right before they go to sleep at night. Meanwhile, only 22% of men report playing games right when they wake up in
+the morning.
 
-Millennials are 24% more likely to play games before they go to sleep at night than older players and 42% more likely to play right when they wake up in the morning as well. In fact, Millennials seem to play more consistently throughout the day, over-indexing for just about every activity. 
+Millennials are 24% more likely to play games before they go to sleep at night than older players and 42% more likely to
+play right when they wake up in the morning as well. In fact, Millennials seem to play more consistently throughout the
+day, over-indexing for just about every activity.
 
 ### 4.3. Data scrapping
 
@@ -96,9 +102,13 @@ Millennials are 24% more likely to play games before they go to sleep at night t
 |--------------------------|--------------|
 | Data scrapping per token | once per day | 
 
-#### 4.2.4. Average size of token for data scraping
+#### 4.3.1. Average size of token for data scraping
 
 Let's assume 200 bytes.
+
+#### 4.3.2. Scrapping flow
+
+![Scrapping flow](/umls/images/diagram_data_scrapping.png)
 
 
 

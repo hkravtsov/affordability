@@ -9,18 +9,67 @@ database scheduled as "Scheduled \nscrapping tasks"
 participant scheduler as "Scrapping Scheduler"
 queue stq as "Scrapping Task Queue"
 participant service as "Scrapping Service"
-participant baip as "Bank API"
+participant bapisd as "Bank API Service Discovery"
+participant bapi as "Bank API"
 
 end box
 
 participant bank as "Bank"
 
-note over scheduled: <b>Stored data</b>:\ntoken,\nnext scraping moment,\nlast scrapping moment,\nstatus
+note over scheduled: <b>Stored data</b>:\ntoken,\nnext scraping moment,\nlast scrapping moment,\nstatus,\nbankID
 
-loop Get scheduled tasks \n(repeat until all scheduled are in processing)
-scheduler -> scheduled: get a task for\na time window\n(find and modify)
+== Registration into the Service discovery ==
 
-scheduler -> stq
+loop Deployment not on k8s
+bapi -> bapisd++: self-registration
+note over bapisd: <b>Record</b>:\nbankid,\nversion,\nIP
+activate bapi
+bapisd -> bapi--: ack
+deactivate bapi
 end
 
+== Schedule scrapping ==
+
+loop Get scheduled tasks \n(repeat until all scheduled are in processing)
+  scheduler o-> scheduled++: get a task for\na time window\n(find and modify)
+  activate scheduler
+  scheduled -> scheduler--: a task
+  scheduler -> stq++: enqueue a task
+  stq -> scheduler--:ack
+  deactivate scheduler
+end
+
+== Executing scrapping task ==
+
+loop Scrapping service consumes the task from the queue
+service -> stq++: consume a task
+activate service
+stq -> service--: a scrapping task
+note over service: Task is a set of info needed for \nsuccessful scrapping player's transactions:\ntoken,\nbankId,\ntime slot
+service -> bapisd++: try to find a service by bankId
+alt service found
+  bapisd -> bapi++: scrapping request
+  bapi -> bank++: fetch data
+  bank -> bapi--: transaction records
+  bapi -> bapisd--: transaction records
+  bapisd -> service: transaction records
+  loop with retry
+  service -> dl++: store raw data
+  dl -> service--: ack
+  end
+else service not found
+  bapisd -> service--: not found
+
+end
+loop retry
+service -> scheduled++: update schedule of the task
+alt success
+  scheduled -> service: ack
+else
+  note over service: <b>De-duplication mechanism</b> should be proposed
+  scheduled -> service--: ack
+end
+end
+deactivate service
+end
 @enduml
