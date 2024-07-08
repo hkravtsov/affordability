@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+database dl as "Data Lake"
+
+box "Open Bank Platform"  #LightBlue
+database vdb as "Vector Database"
+participant service as "Transforming Service"
+end box
+
+
+@enduml

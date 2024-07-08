@@ -48,6 +48,10 @@ Hypothesis: Scheduled data scrapper + ETL
 Hypothesis: Data Lake for weakly structured data
 ```
 
+```
+Hypothesis: Vector database for storing embedings.
+```
+
 ## 4. Preliminary requirements
 
 ### 4.1. Multiple bank account
@@ -108,7 +112,24 @@ Thus, most operation will be made in **2-3 hours per day**.
 
 Let's assume 200 bytes.
 
+#### 4.3.2. Total players
+
+Let's assume up to 20M players.
+
 ## 5. The back-of-envelop calculation
+
+| Metric                                                 | Unit                    | Value | Comment |
+|--------------------------------------------------------|-------------------------|-------|---------|
+| Total players                                          | persons per months      | 20M   |         | 
+| Total deposit transactions                             | transactions per month  | 3B    |         |
+| Total withdraw transactions                            | transactions per months | 40M   |         | 
+| Data Lake capacity (+30%)                              | PB per month            | 1.5   |         |
+| Data Lake capacity (+30%)                              | PB per year             | 18    |         |
+| Embedding size (25 features x 4 bytes)                 | Bytes                   | 100   |         | 
+| Total embeddings                                       | record                  | 20M   |         |
+| Vector DB capacity (+30%)                              | GB per year             | 240   |         | 
+| Scrapping (replication) throughput (Bank -> Data Lake) | GB per second           | 4.63  |         | 
+| Vector database throughput                             | MB per second           | 2.8   |         | 
 
 ## 6.Architectural design
 
@@ -136,18 +157,38 @@ ELT takes a slightly different approach:
 - **Load** - Instead of transforming it immediately, raw data is directly loaded into the target system.
 - **Transform** - Transformations take place within the data warehouse.
 
-##### 6.1.1.2. Comparison of ETL and ELT
+**ELT is more suitable** for the project due to:
 
-| Approach  | ETL | ELT |
-|-----------|-----|-----|
-| Pros      |     |     |
-| Cons      |     |     |
+- **Flexibility** - As raw data is loaded first, businesses can decide on the transformation logic later, offering the
+  ability to adapt as requirements change.
+- **Efficiency** - Capitalizing on the robust power of modern cloud warehouses, transformations are faster and more
+  scalable.
+- **Suitability for large datasets** - ELT is generally more efficient for large datasets as it leverages the power of
+  massive parallel processing capabilities of cloud data warehouses.
 
 ### 6.2. Basic flows
 
-#### 6.2.1. Scrapping (replication) flows
+#### 6.2.1. Scrapping (extracting and loading) flows
+
+replication
+The main goal of this step is to collect raw data from integrated banks and store it in the Data Lake, enriched with
+Open Banking Platform metadata.
 
 ![Scrapping flow](/umls/images/diagram_data_scrapping.png)
+
+The comparison of the data format for Data Lake:
+
+| Options                  | Avro  | Parquet | ORC    |
+|--------------------------|-------|---------|--------|
+| Schema evolution support | Best  | Good    | Better |
+| Compression of files     | Good  | Better  | Best   |
+| Splittability support    | Good  | Good    | Best   |
+| Row/ Column based        | Row   | Column  | Column |
+| Read/Write intensive     | Write | Read    | Write  |
+
+Considering that the mechanism for converting raw data into embeddings/vectors may change over time, Parquet is a better choice because it is designed to be read-intensive.
+
+#### 6.2.2. Transforming flows
 
 ## 6.3. Monitoring, metrics and alerting
 
@@ -230,7 +271,11 @@ Collecting and analyzing logs to track app behavior, diagnose issues, and troubl
 Monitoring for suspicious activities, potential intrusions, and vulnerabilities to protect the app from security
 threats.
 
-Please, follow [NIST SP 800-171](https://csrc.nist.gov/pubs/sp/800/171/r2/upd1/final) recommendations in security monitoring.
+Please, follow [NIST SP 800-171](https://csrc.nist.gov/pubs/sp/800/171/r2/upd1/final) recommendations in security
+monitoring.
+
+## 7. High-Level Architectural Design
+
 
 
 

@@ -55,6 +55,7 @@ alt service found
   bapisd -> service: transaction records
   loop with retry
   service -> dl++: store raw data
+  note over dl:  Format: Parquet\nFile name: bankId_timestamp_token.parquet
   dl -> service--: ack
   end
 else service not found
