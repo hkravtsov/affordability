@@ -166,6 +166,52 @@ ELT takes a slightly different approach:
 - **Suitability for large datasets** - ELT is generally more efficient for large datasets as it leverages the power of
   massive parallel processing capabilities of cloud data warehouses.
 
+#### 6.1.2. Vector persistence
+
+In the context of this project the best choice for the persistence layer is vector databases.
+
+#### 6.1.2.1. Replication
+
+Replicate vectors across multiple servers or data centers to ensure data availability and redundancy.
+In the context of the project, the bidirectional replication seems like the most effective.
+
+#### 6.1.2.2. Partitioning
+
+The primary use of partitioning is scalability. The persistence layer should be partitioned by geoID.
+
+#### 6.1.2.3. Transactions
+
+No needed.
+
+#### 6.1.2.4. Integrity
+
+Data integrity exists to ensure the data remains accurate and uncompromised throughout this process.
+No special requirements
+
+#### 6.1.2.5. PACELC
+
+In the context of the PACELC theorem, we can assume:
+
+- network splitting at the replica level;
+- eventually consistency due to inter-cluster replication via a queue.
+
+Thus, we need to select a EL vector database.
+
+#### 6.1.2.6. Load profile
+
+| Operation | Cases                     | Frequency                | Unit                 | Value  |
+|-----------|---------------------------|--------------------------|----------------------|--------|
+| Create    | Save token for scoring    | per PayIn token          | operations per month | 3B     |
+| Read      | re-evaluate score per geo | per geo location per day | operations per month | 30-120 |
+| Update    | update risk score         | per PayIn token          | operation per month  | 3B     |
+| Delete    | delete outdated vectors   | per PayIn token          | operations per month | 31     |
+
+As the table shows the profile is **WRITE-HEAVY**.
+
+The recommended database: MongoDB.
+
+#### 6.1.2.6. Vector structure
+
 ### 6.2. Basic flows
 
 #### 6.2.1. Scrapping (extracting and loading) flows
@@ -186,9 +232,12 @@ The comparison of the data format for Data Lake:
 | Row/ Column based        | Row   | Column  | Column |
 | Read/Write intensive     | Write | Read    | Write  |
 
-Considering that the mechanism for converting raw data into embeddings/vectors may change over time, Parquet is a better choice because it is designed to be read-intensive.
+Considering that the mechanism for converting raw data into embeddings/vectors may change over time, Parquet is a better
+choice because it is designed to be read-intensive.
 
 #### 6.2.2. Transforming flows
+
+//TODO:
 
 ## 6.3. Monitoring, metrics and alerting
 
