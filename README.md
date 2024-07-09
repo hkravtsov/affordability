@@ -276,6 +276,8 @@ monitoring.
 
 ## 7. High-Level Architectural Design
 
+![Architectural design](/pictures/player_risk_score.drawio.png)
+
 
 
 
