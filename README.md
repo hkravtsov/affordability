@@ -183,7 +183,7 @@ In the context of the PACELC theorem, we can assume:
 - network splitting at the replica level;
 - eventually consistency due to inter-cluster replication via a queue.
 
-Thus, we need to select a PA/EC vector database.
+Thus, we need to select a PA/EL vector database.
 
 #### 6.1.2.6. Load profile
 
