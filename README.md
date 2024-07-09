@@ -40,18 +40,6 @@ Understanding different nature of the data and, potentially, different quality l
 Hypothesis: K-nearest neigborns + random forest + neural network for weakly structured data
 ```
 
-```
-Hypothesis: Scheduled data scrapper + ETL
-```
-
-```
-Hypothesis: Data Lake for weakly structured data
-```
-
-```
-Hypothesis: Vector database for storing embedings.
-```
-
 ## 4. Preliminary requirements
 
 ### 4.1. Multiple bank account
