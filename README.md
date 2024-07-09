@@ -278,6 +278,18 @@ monitoring.
 
 ![Architectural design](/pictures/player_risk_score.drawio.png)
 
+Multi-DC solutions play a critical role in ensuring **high availability**, **fault tolerance**, and **scalability**.
+
+| Key aspects                          | Description                                                                                                                                                                                                                                                                                                                                             |
+|--------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Redundancy                           | Redundancy is achieved by replicating critical infrastructure components, such as servers, storage, networking equipment, and power sources, across multiple data centers. This redundancy ensures that if one data center fails or becomes unavailable, the workload can be seamlessly transferred to another data center without disrupting services. |
+| Load Balancing                       | Load balancing distributes incoming network traffic across multiple servers or data centers to ensure optimal resource utilization, maximize throughput, minimize response time, and avoid overload on any single server or data center. It can be implemented using hardware or software-based solutions.                                              |
+| Data Replication and Synchronization | Data replication involves copying data across multiple data centers in real-time or near-real-time to ensure data availability and consistency. Synchronization mechanisms are employed to keep data consistent across different data centers, often utilizing techniques like synchronous or asynchronous replication.                                 |
+| Global Traffic Management            | Global Traffic Management solutions direct user requests to the nearest or most suitable data center based on factors such as geographical location, network latency, server load, or other customized criteria. This ensures optimal performance and user experience.                                                                                  |
+| Disaster Recovery (DR)               | Multi-DC solutions often include disaster recovery plans and procedures to mitigate the impact of catastrophic events such as natural disasters, cyber-attacks, or hardware failures. These plans typically involve automated failover processes to switch traffic to backup data centers in case of a disaster.                                        |
+| Consistency Models                   | Multi-DC architectures may implement different consistency models depending on the specific requirements of the application. These models include strong consistency, eventual consistency, and causal consistency, each offering trade-offs between data consistency, availability, and partition tolerance.                                           |
+
+
 
 
 
