@@ -116,7 +116,7 @@ Let's assume 200 bytes.
 
 Let's assume up to 20M players.
 
-## 5. The back-of-envelop calculation
+## 5. Back-of-the-envelop calculation
 
 | Metric                                                 | Unit                    | Value | Comment |
 |--------------------------------------------------------|-------------------------|-------|---------|
