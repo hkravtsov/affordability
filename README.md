@@ -116,7 +116,7 @@ Let's assume 200 bytes.
 
 Let's assume up to 20M players.
 
-## 5. The back-of-envelop calculation
+## 5. Back-of-the-envelop calculation
 
 | Metric                                                 | Unit                    | Value | Comment |
 |--------------------------------------------------------|-------------------------|-------|---------|
@@ -195,7 +195,7 @@ In the context of the PACELC theorem, we can assume:
 - network splitting at the replica level;
 - eventually consistency due to inter-cluster replication via a queue.
 
-Thus, we need to select a EL vector database.
+Thus, we need to select a PA/EC vector database.
 
 #### 6.1.2.6. Load profile
 
@@ -208,7 +208,7 @@ Thus, we need to select a EL vector database.
 
 As the table shows the profile is **WRITE-HEAVY**.
 
-The recommended database: MongoDB.
+The recommended database: Apache Cassandra (write-heavy, PA/EL).
 
 #### 6.1.2.6. Vector structure
 
